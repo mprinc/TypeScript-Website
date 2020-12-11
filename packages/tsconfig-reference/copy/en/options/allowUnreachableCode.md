@@ -9,7 +9,7 @@ When:
 - `true` unreachable code is ignored
 - `false` raises compiler errors about unreachable code
 
-These warnings are only about code which is provably unreachable due to the use of JavaScript syntax, for example:
+These warnings are only about code which is <span class='error' data-replacement='probably' data-comment=''>provably</span> unreachable due to the use of JavaScript syntax, for example:
 
 ```ts
 function fn(n: number) {

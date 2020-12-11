@@ -3,7 +3,7 @@ display: "Lib"
 oneline: "Include type definitions you know are available in your JavaScript runtime"
 ---
 
-TypeScript includes a default set of type definitions for built-in JS APIs (like `Math`), as well as type definitions for things found in browser environments (like `document`).
+TypeScript includes a <span class='definition'>default set of type definitions</span> for built-in JS APIs (like `Math`), as well as type definitions for things found in browser environments (like `document`).
 TypeScript also includes APIs for newer JS features matching the `target` you specify; for example the definition for `Map` is available if `target` is `ES6` or newer.
 
 You may want to change these for a few reasons:
@@ -66,4 +66,4 @@ You may want to change these for a few reasons:
 | `ESNext.Intl`             |
 | `ESNext.Symbol`           |
 
-This list may be out of date, you can see the full list in the [TypeScript source code](https://github.com/microsoft/TypeScript/tree/master/lib).
+This list may be out of date, you can see <span class='definition'>the full list</span> in the [TypeScript source code](https://github.com/microsoft/TypeScript/tree/master/lib).

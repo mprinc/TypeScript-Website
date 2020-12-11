@@ -4,7 +4,7 @@ oneline: "Used to create multiple build projects"
 ---
 
 The `composite` option enforces certain constraints which make it possible for build tools (including TypeScript
-itself, under `--build` mode) to quickly determine if a project has been built yet.
+itself, under `--build` mode) <span class='definition'>to quickly determine if a project has been built yet</span>.
 
 When this setting is on:
 

@@ -3,8 +3,8 @@ display: "Experimental Decorators"
 oneline: "Enable experimental support for TC39 stage 2 decorators"
 ---
 
-Enables [experimental support for decorators](https://github.com/tc39/proposal-decorators), which is in stage 2
-of the TC39 standardization process.
+<span class='comment' data-comment='Should mention new decorators proposal'>Enables [experimental support for decorators](https://github.com/tc39/proposal-decorators), which is in stage 2
+of the TC39 standardization process.</span>
 
 Decorators are a language feature which hasn't yet been fully ratified into the JavaScript specification.
 This means that the implementation version in TypeScript may differ from the implementation in JavaScript when it it decided by TC39.

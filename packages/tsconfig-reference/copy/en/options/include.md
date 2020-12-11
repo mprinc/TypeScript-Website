@@ -3,8 +3,8 @@ display: "Include"
 oneline: "Files or patterns to include in this project"
 ---
 
-Specifies an array of filenames or patterns to include in the program.
-These filenames are resolved relative to the directory containing the `tsconfig.json` file.
+Specifies <span class='definition'>an array of filenames or patterns to include in the program</span>.
+These filenames are <span class='important'>resolved relative</span> to the directory containing the `tsconfig.json` file.
 
 ```json
 {
@@ -57,10 +57,10 @@ Which would include:
 └── yarn.lock
 ```
 
-`include` and `exclude` support wildcard characters to make glob patterns:
+`include` and `exclude` support wildcard characters to make <span class='definition'>glob patterns</span>:
 
 - `*` matches zero or more characters (excluding directory separators)
 - `?` matches any one character (excluding directory separators)
 - `**/` matches any directory nested to any level
 
-If a glob pattern doesn't include a file extension, then only files with supported extensions are included (e.g. `.ts`, `.tsx`, and `.d.ts` by default, with `.js` and `.jsx` if `allowJs` is set to true).
+If a glob pattern <span class='definition'>doesn't include a file extension</span>, then only files with supported extensions are included (e.g. `.ts`, `.tsx`, and `.d.ts` by default, with `.js` and `.jsx` if `allowJs` is set to true).

@@ -6,11 +6,11 @@ oneline: How to split up a large TypeScript project
 translatable: true
 ---
 
-Project references are a new feature in TypeScript 3.0 that allow you to structure your TypeScript programs into smaller pieces.
+<span class='definition'>Project references</span> are a new feature in TypeScript 3.0 that allow you to <span class='important'>structure your TypeScript programs into smaller pieces</span>.
 
-By doing this, you can greatly improve build times, enforce logical separation between components, and organize your code in new and better ways.
+By doing this, you can <span class='important'>greatly improve build times</span>, <span class='important'>enforce logical separation between components</span>, and <span class='important'>organize your code in new and better ways</span>.
 
-We're also introducing a new mode for `tsc`, the `--build` flag, that works hand in hand with project references to enable faster TypeScript builds.
+We're also introducing a <span class='definition'>new mode for `tsc`, the `--build` flag</span>, that works hand in hand with project references to enable faster TypeScript builds.
 
 ## An Example Project
 
@@ -51,7 +51,7 @@ Project references can solve all of these problems and more.
 
 ## What is a Project Reference?
 
-`tsconfig.json` files have a new top-level property, `references`. It's an array of objects that specifies projects to reference:
+`tsconfig.json` files have a new <span class='definition'>top-level property, `references`</span>. It's <span class='important'>an array of objects that specifies projects to reference</span>:
 
 ```js tsconfig
 {
@@ -64,21 +64,21 @@ Project references can solve all of these problems and more.
 }
 ```
 
-The `path` property of each reference can point to a directory containing a `tsconfig.json` file, or to the config file itself (which may have any name).
+The <span class='definition'>`path` property</span> of each reference can point to a directory containing a `tsconfig.json` file, or to the config file itself (which may have any name).
 
 When you reference a project, new things happen:
 
-- Importing modules from a referenced project will instead load its _output_ declaration file (`.d.ts`)
+- <span class='definition'>Importing modules</span> from a referenced project will <span class='important'>instead load its _output_ declaration file (`.d.ts`)</span>
 - If the referenced project produces an `outFile`, the output file `.d.ts` file's declarations will be visible in this project
 - Build mode (see below) will automatically build the referenced project if needed
 
-By separating into multiple projects, you can greatly improve the speed of typechecking and compiling, reduce memory usage when using an editor, and improve enforcement of the logical groupings of your program.
+By separating into multiple projects, you can <span class='important'>greatly improve the speed of typechecking and compiling</span>, <span class='important'>reduce memory usage when using an editor</span>, and <span class='important'>improve enforcement of the logical groupings of your program</span>.
 
 ## `composite`
 
-Referenced projects must have the new `composite` setting enabled.
-This setting is needed to ensure TypeScript can quickly determine where to find the outputs of the referenced project.
-Enabling the `composite` flag changes a few things:
+<span class='definition'>Referenced projects</span> must have the new <span class='definition'>`composite` setting</span> enabled.
+This setting is needed to ensure TypeScript can <span class='important'>quickly determine where to find the outputs of the referenced project</span>.
+<span class='definition'>Enabling the `composite` flag</span> changes a few things:
 
 - The `rootDir` setting, if not explicitly set, defaults to the directory containing the `tsconfig` file
 - All implementation files must be matched by an `include` pattern or listed in the `files` array. If this constraint is violated, `tsc` will inform you which files weren't specified
@@ -86,8 +86,8 @@ Enabling the `composite` flag changes a few things:
 
 ## `declarationMap`s
 
-We've also added support for [declaration source maps](https://github.com/Microsoft/TypeScript/issues/14479).
-If you enable `--declarationMap`, you'll be able to use editor features like "Go to Definition" and Rename to transparently navigate and edit code across project boundaries in supported editors.
+We've also added support for <span class='definition'>[declaration source maps](https://github.com/Microsoft/TypeScript/issues/14479)</span>.
+If you enable `--declarationMap`, you'll be <span class='important'>able to use editor features like "Go to Definition" and Rename</span> to transparently navigate and edit code across project boundaries in supported editors.
 
 ## `prepend` with `outFile`
 
@@ -115,23 +115,23 @@ B     C
    D
 ```
 
-It's important in this situation to not prepend at each reference, because you'll end up with two copies of `A` in the output of `D` - this can lead to unexpected results.
+It's important in this situation to <span class='important'>not prepend at each reference</span>, because you'll end up with two copies of `A` in the output of `D` - this can lead to <span class='definition'>unexpected results</span>.
 
 ## Caveats for Project References
 
 Project references have a few trade-offs you should be aware of.
 
-Because dependent projects make use of `.d.ts` files that are built from their dependencies, you'll either have to check in certain build outputs _or_ build a project after cloning it before you can navigate the project in an editor without seeing spurious errors.
-We're working on a behind-the-scenes .d.ts generation process that should be able to mitigate this, but for now we recommend informing developers that they should build after cloning.
+Because dependent projects make use of `.d.ts` files that are built from their dependencies, you'll either have to <span class='important'>check in certain build outputs _or_ build a project after cloning it</span> before you can navigate the project in an editor without seeing spurious errors.
+We're working on a <span class='definition'>behind-the-scenes .d.ts generation process</span> that should be able to mitigate this, but for now we recommend informing developers that they should build after cloning.
 
-Additionally, to preserve compatibility with existing build workflows, `tsc` will _not_ automatically build dependencies unless invoked with the `--build` switch.
+Additionally, to preserve compatibility with existing build workflows, <span class='important'>`tsc` will _not_ automatically build dependencies unless invoked with the `--build` switch</span>.
 Let's learn more about `--build`.
 
 ## Build Mode for TypeScript
 
 A long-awaited feature is smart incremental builds for TypeScript projects.
 In 3.0 you can use the `--build` flag with `tsc`.
-This is effectively a new entry point for `tsc` that behaves more like a build orchestrator than a simple compiler.
+This is effectively a new entry point for `tsc` that behaves more like a <span class='definition'>build orchestrator</span> than a simple compiler.
 
 Running `tsc --build` (`tsc -b` for short) will do the following:
 
@@ -152,7 +152,7 @@ You can specify any number of config files:
  > tsc -b foo/prd.tsconfig.json bar  # Use foo/prd.tsconfig.json and bar/tsconfig.json
 ```
 
-Don't worry about ordering the files you pass on the commandline - `tsc` will re-order them if needed so that dependencies are always built first.
+Don't worry about ordering the files you pass on the commandline - `tsc` will <span class='important'>re-order them if needed so that dependencies are always built first</span>.
 
 There are also some flags specific to `tsc -b`:
 
@@ -166,9 +166,9 @@ There are also some flags specific to `tsc -b`:
 
 Normally, `tsc` will produce outputs (`.js` and `.d.ts`) in the presence of syntax or type errors, unless `noEmitOnError` is on.
 Doing this in an incremental build system would be very bad - if one of your out-of-date dependencies had a new error, you'd only see it _once_ because a subsequent build would skip building the now up-to-date project.
-For this reason, `tsc -b` effectively acts as if `noEmitOnError` is enabled for all projects.
+For this reason, <span class='important'>`tsc -b` effectively acts as if `noEmitOnError` is enabled for all projects</span>.
 
-If you check in any build outputs (`.js`, `.d.ts`, `.d.ts.map`, etc.), you may need to run a `--force` build after certain source control operations depending on whether your source control tool preserves timestamps between the local copy and the remote copy.
+If you <span class='definition'>check in</span> any build outputs (`.js`, `.d.ts`, `.d.ts.map`, etc.), <span class='important'>you may need to run a `--force` build after certain source control operations</span> depending on whether your source control tool preserves timestamps between the local copy and the remote copy.
 
 ## MSBuild
 
@@ -189,10 +189,10 @@ If your solution is like this, you can continue to use `msbuild` with `tsc -p` a
 
 ## Overall Structure
 
-With more `tsconfig.json` files, you'll usually want to use [Configuration file inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) to centralize your common compiler options.
-This way you can change a setting in one file rather than having to edit multiple files.
+With more `tsconfig.json` files, you'll usually want to use [Configuration file inheritance](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) to <span class='definition'>centralize your common compiler options</span>.
+This way you can <span class='important'>change a setting in one file rather than having to edit multiple files</span>.
 
-Another good practice is to have a "solution" `tsconfig.json` file that simply has `references` to all of your leaf-node projects and sets `files` to an empty array (otherwise the solution file will cause double compilation of files). Note that starting with 3.0, it is no longer an error to have an empty `files` array if you have at least one `reference` in a `tsconfig.json` file.
+Another good practice is to have a <span class='definition'>"solution" `tsconfig.json` file</span> that simply has `references` to all of your leaf-node projects and sets `files` to an empty array (otherwise the solution file will cause double compilation of files). Note that starting with 3.0, it is no longer an error to have an empty `files` array if you have at least one `reference` in a `tsconfig.json` file.
 
 This presents a simple entry point; e.g. in the TypeScript repo we simply run `tsc -b src` to build all endpoints because we list all the subprojects in `src/tsconfig.json`
 
@@ -200,8 +200,8 @@ You can see these patterns in the TypeScript repo - see `src/tsconfig_base.json`
 
 ## Structuring for relative modules
 
-In general, not much is needed to transition a repo using relative modules.
-Simply place a `tsconfig.json` file in each subdirectory of a given parent folder, and add `reference`s to these config files to match the intended layering of the program.
+In general, not much is needed to <span class='definition'>transition a repo using relative modules</span>.
+Simply place a `tsconfig.json` file in each subdirectory of a given parent folder, and add `reference`s to these config files to match the <span class='important'>intended layering of the program</span>.
 You will need to either set the `outDir` to an explicit subfolder of the output folder, or set the `rootDir` to the common root of all project folders.
 
 ## Structuring for outFiles

@@ -3,7 +3,7 @@ display: "Files"
 oneline: "Include a set list of files, does not support globs"
 ---
 
-Specifies an allowlist of files to include in the program. An error occurs if any of the files can't be found.
+Specifies an <span class='definition'>allowlist of files to include in the program</span>. An error occurs if any of the files <span class='important'>can't be found</span>.
 
 ```json tsconfig
 {
@@ -22,5 +22,5 @@ Specifies an allowlist of files to include in the program. An error occurs if an
 }
 ```
 
-This is useful when you only have a small number of files and don't need to use a glob to reference many files.
+This is useful when you only have a small number of files and <span class='important'>don't need to use a glob</span> to reference many files.
 If you need that then use [`include`](#include).

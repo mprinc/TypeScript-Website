@@ -3,7 +3,7 @@ display: "Emit Decorator Metadata"
 oneline: "Adds additional type metadata to decorators in emitted code"
 ---
 
-Enables experimental support for emitting type metadata for decorators which works with the module [`reflect-metadata`](https://www.npmjs.com/package/reflect-metadata).
+Enables experimental support for <span class='definition'>emitting type metadata for decorators</span> which works with the module [`reflect-metadata`](https://www.npmjs.com/package/reflect-metadata).
 
 For example, here is the JavaScript
 

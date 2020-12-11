@@ -3,12 +3,12 @@ display: "List Emitted Files"
 oneline: "Print the names of emitted files after a compile"
 ---
 
-Print names of generated files part of the compilation to the terminal.
+<span class='definition'>Print names of generated files part of the compilation</span> to the terminal.
 
 This flag is useful in two cases:
 
-- You want to transpile TypeScript as a part of a build chain in the terminal where the filenames are processed in the next command.
-- You are not sure that TypeScript has included a file you expected, as a part of debugging the [file inclusion settings](#Project_Files_0).
+- You want to transpile TypeScript as a part of a build chain in the terminal where the <span class='important'>filenames are processed in the next command</span>.
+- You are <span class='definition'>not sure that TypeScript has included a file you expected</span>, as a part of debugging the [file inclusion settings](#Project_Files_0).
 
 For example:
 

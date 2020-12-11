@@ -8,7 +8,7 @@ translatable: true
 
 ## Overview
 
-The presence of a `tsconfig.json` file in a directory indicates that the directory is the root of a TypeScript project.
+The presence of a `tsconfig.json` file in a directory indicates that the directory is <span class='definition'>the root of a TypeScript project</span>.
 The `tsconfig.json` file specifies the root files and the compiler options required to compile the project.
 
 JavaScript projects can use a `jsconfig.json` file instead, which acts almost the same but has some JavaScript-related compiler flags enabled by default.

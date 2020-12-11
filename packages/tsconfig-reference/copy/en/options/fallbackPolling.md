@@ -3,7 +3,7 @@ display: "fallbackPolling"
 oneline: "What the watcher should use if the system runs out of native file watchers"
 ---
 
-When using file system events, this option specifies the polling strategy that gets used when the system runs out of native file watchers and/or doesn't support native file watchers.
+When using file system events, this option specifies <span class='important'>the polling strategy that gets used when the system runs out of native file watchers and/or doesn't support native file watchers</span>.
 
 - `fixedPollingInterval`: Check every file for changes several times a second at a fixed interval.
 - `priorityPollingInterval`: Check every file for changes several times a second, but use heuristics to check certain types of files less frequently than others.

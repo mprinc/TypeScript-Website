@@ -13,56 +13,56 @@ _Module resolution_ is the process the compiler uses to figure out what an impor
 Consider an import statement like `import { a } from "moduleA"`;
 in order to check any use of `a`, the compiler needs to know exactly what it represents, and will need to check its definition `moduleA`.
 
-At this point, the compiler will ask "what's the shape of `moduleA`?"
+At this point, the compiler will ask <span class='definition'>"what's the shape of `moduleA`?</span>"
 While this sounds straightforward, `moduleA` could be defined in one of your own `.ts`/`.tsx` files, or in a `.d.ts` that your code depends on.
 
-First, the compiler will try to locate a file that represents the imported module.
-To do so the compiler follows one of two different strategies: [Classic](#classic) or [Node](#node).
-These strategies tell the compiler _where_ to look for `moduleA`.
+First, the compiler will <span class='definition'>try to locate a file that represents the imported module</span>.
+To do so the compiler follows <span class='definition'>one of two different strategies</span>: [Classic](#classic) or [Node](#node).
+These strategies tell the compiler <span class='definition'>_where_ to look for `moduleA`</span>.
 
-If that didn't work and if the module name is non-relative (and in the case of `"moduleA"`, it is), then the compiler will attempt to locate an [ambient module declaration](/docs/handbook/modules.html#ambient-modules).
+If that didn't work and if the module name is non-relative (and in the case of `"moduleA"`, it is), then the compiler will attempt to locate an <span class='definition'>[ambient module declaration](/docs/handbook/modules.html#ambient-modules)</span>.
 We'll cover non-relative imports next.
 
-Finally, if the compiler could not resolve the module, it will log an error.
+Finally, if the compiler could not resolve the module, it will log an <span class='definition'>error</span>.
 In this case, the error would be something like `error TS2307: Cannot find module 'moduleA'.`
 
 ## Relative vs. Non-relative module imports
 
 Module imports are resolved differently based on whether the module reference is relative or non-relative.
 
-A _relative import_ is one that starts with `/`, `./` or `../`.
+A <span class='definition'>_relative import_</span> is one that starts with `/`, `./` or `../`.
 Some examples include:
 
 - `import Entry from "./components/Entry";`
 - `import { DefaultHeaders } from "../constants/http";`
 - `import "/mod";`
 
-Any other import is considered **non-relative**.
+Any other import is considered <span class='definition'>**non-relative**</span>.
 Some examples include:
 
 - `import * as $ from "jquery";`
 - `import { Component } from "@angular/core";`
 
-A relative import is resolved relative to the importing file and _cannot_ resolve to an ambient module declaration.
-You should use relative imports for your own modules that are guaranteed to maintain their relative location at runtime.
+A relative import is resolved relative to the importing file and <span class='important'>_cannot_ resolve to an ambient module declaration</span>.
+You should use relative imports for your own modules that are <span class='important'>guaranteed to maintain their relative location at runtime</span>.
 
-A non-relative import can be resolved relative to `baseUrl`, or through path mapping, which we'll cover below.
+<span class='important'>A non-relative import can be resolved relative to `baseUrl`, or through path mapping</span>, which we'll cover below.
 They can also resolve to [ambient module declarations](/docs/handbook/modules.html#ambient-modules).
-Use non-relative paths when importing any of your external dependencies.
+Use non-relative paths when importing any of your <span class='definition'>external dependencies</span>.
 
 ## Module Resolution Strategies
 
 There are two possible module resolution strategies: [Node](#node) and [Classic](#classic).
 You can use the `--moduleResolution` flag to specify the module resolution strategy.
-If not specified, the default is [Node](#node) for `--module commonjs`, and [Classic](#classic) otherwise (including when `--module` is set to `amd`, `system`, `umd`, `es2015`, `esnext`, etc.).
+If not specified, the <span class='definition'>default</span> is [Node](#node) for `--module commonjs`, and [Classic](#classic) otherwise (including when `--module` is set to `amd`, `system`, `umd`, `es2015`, `esnext`, etc.).
 
-> Note: `node` module resolution is the most-commonly used in the TypeScript community and is recommended for most projects.
+> <span class='important'>Note: `node` module resolution is the most-commonly used in the TypeScript community and is recommended for most projects</span>.
 > If you are having resolution problems with `import`s and `export`s in TypeScript, try setting `moduleResolution: "node"` to see if it fixes the issue.
 
 ### Classic
 
-This used to be TypeScript's default resolution strategy.
-Nowadays, this strategy is mainly present for backward compatibility.
+This <span class='important'>used to be TypeScript's default resolution strategy</span>.
+Nowadays, this strategy is <span class='important'>mainly present for backward compatibility</span>.
 
 A relative import will be resolved relative to the importing file.
 So `import { b } from "./moduleB"` in source file `/root/src/folder/A.ts` would result in the following lookups:
@@ -87,7 +87,7 @@ A non-relative import to `moduleB` such as `import { b } from "moduleB"`, in a s
 
 ### Node
 
-This resolution strategy attempts to mimic the [Node.js](https://nodejs.org/) module resolution mechanism at runtime.
+This resolution strategy attempts to <span class='definition'>mimic the [Node.js](https://nodejs.org/) module resolution mechanism at runtime</span>.
 The full Node.js resolution algorithm is outlined in [Node.js module documentation](https://nodejs.org/api/modules.html#modules_all_together).
 
 #### How Node.js resolves modules
@@ -96,7 +96,7 @@ To understand what steps the TS compiler will follow, it is important to shed so
 Traditionally, imports in Node.js are performed by calling a function named `require`.
 The behavior Node.js takes will differ depending on if `require` is given a relative path or a non-relative path.
 
-Relative paths are fairly straightforward.
+<span class='definition'>Relative paths</span> are fairly straightforward.
 As an example, let's consider a file located at `/root/src/moduleA.js`, which contains the import `var x = require("./moduleB");`
 Node.js resolves that import in the following order:
 
@@ -110,10 +110,10 @@ Node.js resolves that import in the following order:
 
 You can read more about this in Node.js documentation on [file modules](https://nodejs.org/api/modules.html#modules_file_modules) and [folder modules](https://nodejs.org/api/modules.html#modules_folders_as_modules).
 
-However, resolution for a [non-relative module name](#relative-vs-non-relative-module-imports) is performed differently.
-Node will look for your modules in special folders named `node_modules`.
+However, <span class='definition'>resolution for a [non-relative module name](#relative-vs-non-relative-module-imports) is performed differently</span>.
+Node will look for your modules <span class='definition'>in special folders named `node_modules`</span>.
 A `node_modules` folder can be on the same level as the current file, or higher up in the directory chain.
-Node will walk up the directory chain, looking through each `node_modules` until it finds the module you tried to load.
+Node will <span class='definition'>walk up the directory chain</span>, looking through each `node_modules` until it finds the module you tried to load.
 
 Following up our example above, consider if `/root/src/moduleA.js` instead used a non-relative path and had the import `var x = require("moduleB");`.
 Node would then try to resolve `moduleB` to each of the locations until one worked.
@@ -137,8 +137,8 @@ You can read more about the process in Node.js documentation on [loading modules
 #### How TypeScript resolves modules
 
 TypeScript will mimic the Node.js run-time resolution strategy in order to locate definition files for modules at compile-time.
-To accomplish this, TypeScript overlays the TypeScript source file extensions (`.ts`, `.tsx`, and `.d.ts`) over Node's resolution logic.
-TypeScript will also use a field in `package.json` named `"types"` to mirror the purpose of `"main"` - the compiler will use it to find the "main" definition file to consult.
+To accomplish this, TypeScript <span class='definition'>overlays the TypeScript source file extensions</span> (`.ts`, `.tsx`, and `.d.ts`) over Node's resolution logic.
+TypeScript will <span class='definition'>also use a field in `package.json` named `"types"`</span> to mirror the purpose of `"main"` - the compiler will use it to find the "main" definition file to consult.
 
 For example, an import statement like `import { b } from "./moduleB"` in `/root/src/moduleA.ts` would result in attempting the following locations for locating `"./moduleB"`:
 
@@ -152,7 +152,7 @@ For example, an import statement like `import { b } from "./moduleB"` in `/root/
 
 Recall that Node.js looked for a file named `moduleB.js`, then an applicable `package.json`, and then for an `index.js`.
 
-Similarly, a non-relative import will follow the Node.js resolution logic, first looking up a file, then looking up an applicable folder.
+Similarly, <span class='definition'>a non-relative import</span> will follow the Node.js resolution logic, first looking up a file, then looking up an applicable folder.
 So `import { b } from "moduleB"` in source file `/root/src/moduleA.ts` would result in the following lookups:
 
 1. `/root/src/node_modules/moduleB.ts`
@@ -183,15 +183,15 @@ So `import { b } from "moduleB"` in source file `/root/src/moduleA.ts` would res
 24. `/node_modules/moduleB/index.d.ts`
 
 Don't be intimidated by the number of steps here - TypeScript is still only jumping up directories twice at steps (9) and (17).
-This is really no more complex than what Node.js itself is doing.
+This is <span class='important'>really no more complex than what Node.js itself is doing</span>.
 
 ## Additional module resolution flags
 
 A project source layout sometimes does not match that of the output.
 Usually a set of build steps result in generating the final output.
-These include compiling `.ts` files into `.js`, and copying dependencies from different source locations to a single output location.
-The net result is that modules at runtime may have different names than the source files containing their definitions.
-Or module paths in the final output may not match their corresponding source file paths at compile time.
+These include <span class='important'>compiling `.ts` files into `.js`</span>, and <span class='definition'>copying dependencies</span> from different source locations to a single output location.
+The net result is that <span class='important'>modules at runtime may have different names than the source files containing their definitions</span>.
+Or <span class='important'>module paths in the final output may not match their corresponding source file paths at compile time</span>.
 
 The TypeScript compiler has a set of additional flags to _inform_ the compiler of transformations that are expected to happen to the sources to generate the final output.
 
@@ -203,8 +203,8 @@ it just uses these pieces of information to guide the process of resolving a mod
 Using a `baseUrl` is a common practice in applications using AMD module loaders where modules are "deployed" to a single folder at run-time.
 The sources of these modules can live in different directories, but a build script will put them all together.
 
-Setting `baseUrl` informs the compiler where to find modules.
-All module imports with non-relative names are assumed to be relative to the `baseUrl`.
+<span class='important'>Setting `baseUrl` informs the compiler where to find modules</span>.
+<span class='important'>All module imports with non-relative names are assumed to be relative to the `baseUrl`</span>.
 
 Value of _baseUrl_ is determined as either:
 
@@ -217,11 +217,11 @@ You can find more documentation on baseUrl in [RequireJS](http://requirejs.org/d
 
 ### Path mapping
 
-Sometimes modules are not directly located under _baseUrl_.
+<span class='important'>Sometimes modules are not directly located under _baseUrl_</span>.
 For instance, an import to a module `"jquery"` would be translated at runtime to `"node_modules/jquery/dist/jquery.slim.min.js"`.
-Loaders use a mapping configuration to map module names to files at run-time, see [RequireJs documentation](http://requirejs.org/docs/api.html#config-paths) and [SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths).
+<span class='definition'>Loaders</span> use a <span class='definition'>mapping configuration</span> to map module names to files at run-time, see [RequireJs documentation](http://requirejs.org/docs/api.html#config-paths) and [SystemJS documentation](https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths).
 
-The TypeScript compiler supports the declaration of such mappings using `"paths"` property in `tsconfig.json` files.
+The TypeScript compiler supports the declaration of such mappings using <span class='definition'>`"paths"` property</span> in `tsconfig.json` files.
 Here is an example for how to specify the `"paths"` property for `jquery`.
 
 ```json tsconfig
@@ -235,11 +235,11 @@ Here is an example for how to specify the `"paths"` property for `jquery`.
 }
 ```
 
-Please notice that `"paths"` are resolved relative to `"baseUrl"`.
+Please notice that <span class='important'>`"paths"` are resolved relative to `"baseUrl"`</span>.
 When setting `"baseUrl"` to another value than `"."`, i.e. the directory of `tsconfig.json`, the mappings must be changed accordingly.
 Say, you set `"baseUrl": "./src"` in the above example, then jquery should be mapped to `"../node_modules/jquery/dist/jquery"`.
 
-Using `"paths"` also allows for more sophisticated mappings including multiple fall back locations.
+Using `"paths"` also allows for more sophisticated mappings including <span class='definition'>multiple fall back locations</span>.
 Consider a project configuration where only some modules are available in one location, and the rest are in another.
 A build step would put them all together in one place.
 The project layout may look like:
@@ -271,7 +271,7 @@ The corresponding `tsconfig.json` would look like:
 
 This tells the compiler for any module import that matches the pattern `"*"` (i.e. all values), to look in two locations:
 
-1.  `"*"`: meaning the same name unchanged, so map `<moduleName>` => `<baseUrl>/<moduleName>`
+1.  `"*"`: meaning <span class='definition'>the same name unchanged</span>, so map `<moduleName>` => `<baseUrl>/<moduleName>`
 2.  `"generated/*"` meaning the module name with an appended prefix "generated", so map `<moduleName>` => `<baseUrl>/generated/<moduleName>`
 
 Following this logic, the compiler will attempt to resolve the two imports as such:
@@ -295,10 +295,10 @@ import 'folder2/file3':
 
 ### Virtual Directories with `rootDirs`
 
-Sometimes the project sources from multiple directories at compile time are all combined to generate a single output directory.
-This can be viewed as a set of source directories create a "virtual" directory.
+Sometimes <span class='important'>the project sources from multiple directories at compile time are all combined to generate a single output directory</span>.
+This can be viewed as a set of source directories create a <span class='definition'>"virtual" directory</span>.
 
-Using 'rootDirs', you can inform the compiler of the _roots_ making up this "virtual" directory;
+Using <span class='definition'>'rootDirs'</span>, you can <span class='important'>inform the compiler of the _roots_ making up this "virtual" directory</span>;
 and thus the compiler can resolve relative modules imports within these "virtual" directories _as if_ were merged together in one directory.
 
 For example consider this project structure:
@@ -317,11 +317,11 @@ For example consider this project structure:
 
 Files in `src/views` are user code for some UI controls.
 Files in `generated/templates` are UI template binding code auto-generated by a template generator as part of the build.
-A build step will copy the files in `/src/views` and `/generated/templates/views` to the same directory in the output.
-At run-time, a view can expect its template to exist next to it, and thus should import it using a relative name as `"./template"`.
+<span class='important'>A build step will copy the files</span> in `/src/views` and `/generated/templates/views` to the same directory in the output.
+<span class='important'>At run-time, a view can expect its template to exist next to it</span>, and thus should import it using a relative name as `"./template"`.
 
 To specify this relationship to the compiler, use`"rootDirs"`.
-`"rootDirs"` specify a list of _roots_ whose contents are expected to merge at run-time.
+`"rootDirs"` specify a list of _roots_ whose <span class='definition'>contents are expected to merge at run-time</span>.
 So following our example, the `tsconfig.json` file should look like:
 
 ```json tsconfig
@@ -334,9 +334,9 @@ So following our example, the `tsconfig.json` file should look like:
 
 Every time the compiler sees a relative module import in a subfolder of one of the `rootDirs`, it will attempt to look for this import in each of the entries of `rootDirs`.
 
-The flexibility of `rootDirs` is not limited to specifying a list of physical source directories that are logically merged. The supplied array may include any number of ad hoc, arbitrary directory names, regardless of whether they exist or not. This allows the compiler to capture sophisticated bundling and runtime features such as conditional inclusion and project specific loader plugins in a type safe way.
+The flexibility of `rootDirs` is not limited to specifying a list of physical source directories that are logically merged. The supplied array may include any number of ad hoc, arbitrary directory names, regardless of whether they exist or not. This allows the compiler to capture <span class='definition'>sophisticated bundling and runtime features</span> such as <span class='definition'>conditional inclusion</span> and <span class='definition'>project specific loader plugins</span> in a type safe way.
 
-Consider an internationalization scenario where a build tool automatically generates locale specific bundles by interpolating a special path token, say `#{locale}`, as part of a relative module path such as `./#{locale}/messages`. In this hypothetical setup the tool enumerates supported locales, mapping the abstracted path into `./zh/messages`, `./de/messages`, and so forth.
+Consider an internationalization scenario where a <span class='definition'>build tool automatically generates locale specific bundles</span> by interpolating a special path token, say `#{locale}`, as part of a relative module path such as `./#{locale}/messages`. In this hypothetical setup the tool enumerates supported locales, mapping the abstracted path into `./zh/messages`, `./de/messages`, and so forth.
 
 Assume that each of these modules exports an array of strings. For example `./zh/messages` might contain:
 
@@ -358,9 +358,9 @@ The compiler will now resolve `import messages from './#{locale}/messages'` to `
 
 ## Tracing module resolution
 
-As discussed earlier, the compiler can visit files outside the current folder when resolving a module.
-This can be hard when diagnosing why a module is not resolved, or is resolved to an incorrect definition.
-Enabling the compiler module resolution tracing using `--traceResolution` provides insight in what happened during the module resolution process.
+As discussed earlier, <span class='definition'>the compiler can visit files outside the current folder when resolving a module</span>.
+This can be <span class='definition'>hard when diagnosing why a module is not resolved, or is resolved to an incorrect definition</span>.
+<span class='definition'>Enabling the compiler module resolution tracing</span> using `--traceResolution` provides insight in what happened during the module resolution process.
 
 Let's say we have a sample application that uses the `typescript` module.
 `app.ts` has an import like `import * as ts from "typescript"`.
@@ -420,11 +420,11 @@ File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module re
 
 ## Using `--noResolve`
 
-Normally the compiler will attempt to resolve all module imports before it starts the compilation process.
-Every time it successfully resolves an `import` to a file, the file is added to the set of files the compiler will process later on.
+Normally the compiler will <span class='definition'>attempt to resolve all module imports</span> before it starts the compilation process.
+Every time it successfully resolves an `import` to a file, <span class='important'>the file is added to the set of files the compiler will process later on</span>.
 
-The `--noResolve` compiler options instructs the compiler not to "add" any files to the compilation that were not passed on the command line.
-It will still try to resolve the module to files, but if the file is not specified, it will not be included.
+The `--noResolve` compiler options <span class='important'>instructs the compiler not to "add" any files to the compilation that were not passed on the command line</span>.
+It will still <span class='important'>try to resolve the module to files, but if the file is not specified, it will not be included</span>.
 
 For instance:
 
@@ -448,7 +448,7 @@ Compiling `app.ts` using `--noResolve` should result in:
 
 ### Why does a module in the exclude list still get picked up by the compiler?
 
-`tsconfig.json` turns a folder into a “project”.
+`tsconfig.json` turns a folder into a <span class='definition'>“project”</span>.
 Without specifying any `“exclude”` or `“files”` entries, all files in the folder containing the `tsconfig.json` and all its sub-directories are included in your compilation.
 If you want to exclude some of the files use `“exclude”`, if you would rather specify all the files instead of letting the compiler look them up, use `“files”`.
 
@@ -456,4 +456,4 @@ That was `tsconfig.json` automatic inclusion.
 That does not embed module resolution as discussed above.
 If the compiler identified a file as a target of a module import, it will be included in the compilation regardless if it was excluded in the previous steps.
 
-So to exclude a file from the compilation, you need to exclude it and **all** files that have an `import` or `/// <reference path="..." />` directive to it.
+So to <span class='definition'>exclude a file from the compilation</span>, you need to exclude it and **all** files that have an `import` or `/// <reference path="..." />` directive to it.

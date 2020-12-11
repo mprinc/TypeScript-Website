@@ -3,7 +3,7 @@ display: "Emit Declaration Only"
 oneline: "Only output d.ts files and not .js files"
 ---
 
-_Only_ emit `.d.ts` files; do not emit `.js` files.
+_Only_ emit `.d.ts` files; <span class='definition'>do not emit `.js` files</span>.
 
 This setting is useful in two cases:
 
