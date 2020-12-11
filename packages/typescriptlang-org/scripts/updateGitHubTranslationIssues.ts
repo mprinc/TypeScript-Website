@@ -13,6 +13,8 @@ const languages = {
   zh: 296,
   ko: 910,
   id: 938,
+  uk: 1149,
+  pl: 1235,
 }
 
 const go = async () => {
@@ -28,7 +30,7 @@ const go = async () => {
     const issueNumber = languages[lang]
 
     const files = getAllTODOFiles(lang)
-    const header = `Hi! This issue is for keeping track of the localization effort for \`${lang}+"\`. You can learn about the whole roadmap in #100. If you see an un-ticked area below, that means there isn't an version of that file in this language.\n\n`
+    const header = `Hi! This issue is for keeping track of the localization effort for [\`${lang}\`](https://github.com/microsoft/TypeScript-Website/pulls?q=is%3Apr+label%3A${lang}+). You can learn about the whole roadmap in #100. If you see an un-ticked area below, that means there isn't an version of that file in this language.\n\n`
     const body = header + toMarkdown(files)
 
     console.log("Updating: ", issueNumber)

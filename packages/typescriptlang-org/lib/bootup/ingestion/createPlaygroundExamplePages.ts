@@ -1,14 +1,17 @@
 import path from "path"
 import fs from "fs"
-import os from "os"
+const { green } = require("chalk")
 
 import { NodePluginArgs, CreatePagesArgs, withPrefix } from "gatsby"
 import { invertCodeToHTML } from "../../utils/invertCodeToHTML"
+import { isMultiLingual } from "./languageFilter"
 
 export const createPlaygroundExamplePages = async (
   graphql: CreatePagesArgs["graphql"],
   createPage: NodePluginArgs["actions"]["createPage"]
 ) => {
+  console.log(`${green("success")} Creating Playground Example Pages`)
+
   const playPage = path.resolve(`./src/templates/play-example.tsx`)
   const result = await graphql(`
     query GetAllPlaygroundSamples {
@@ -50,11 +53,9 @@ export const createPlaygroundExamplePages = async (
         .replace(/\+/g, "-")
 
     const language = rPath.split("/")[0]
-    const postLangPath = rPath
-      .split("/")
-      .slice(1)
-      .map(idize)
-      .join("/")
+    if (!isMultiLingual && language !== "en") return
+
+    const postLangPath = rPath.split("/").slice(1).map(idize).join("/")
 
     const langPrefix = language === "en" ? "" : language
     const newPagePath = langPrefix + "/play/" + postLangPath
@@ -64,14 +65,14 @@ export const createPlaygroundExamplePages = async (
     const exampleCodePath = path.join(appRoot, "playground-examples", "copy", rPath)
     const code = fs.readFileSync(exampleCodePath, "utf8")
 
-    const id = postLangPath
-      .split("/")
-      .slice(-1)[0]
-      .split(".")[0]
+    const id = postLangPath.split("/").slice(-1)[0].split(".")[0]
 
     const { inlineTitle, compilerSettings } = getCompilerDetailsFromCode(code)
+
+    // Intentionally not adding addPathToSite here
+
     createPage({
-      path: newPagePath,
+      path: newPagePath + ".html",
       component: playPage,
       context: {
         name,
@@ -106,11 +107,11 @@ const getCompilerDetailsFromCode = (contents: string) => {
 
   if (contents.startsWith("//// {")) {
     // convert windows newlines to linux new lines
-    const preJSON = contents.replace(/\r\n/g, "\n").split("//// {")[1].split("}\n")[0]
-    contents = contents
-      .split("\n")
-      .slice(1)
-      .join("\n")
+    const preJSON = contents
+      .replace(/\r\n/g, "\n")
+      .split("//// {")[1]
+      .split("}\n")[0]
+    contents = contents.split("\n").slice(1).join("\n")
     const code = "({" + preJSON + "})"
 
     try {

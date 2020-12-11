@@ -1,5 +1,7 @@
 // @ts-enable
 
+//  node packages/typescriptlang-org/scripts/makeMarkdownOfTranslations.js [lang]
+
 const { join, basename } = require("path")
 const { recursiveReadDirSync } = require("../lib/utils/recursiveReadDirSync")
 const { read } = require("gray-matter")
@@ -54,13 +56,16 @@ const getAllTODOFiles = lang => {
   return all
 }
 
+let totalDone = 0
+let totalTodo = 0
+
 const toMarkdown = files => {
-  const md = []
+  const md = [""]
 
   const markdownLink = (f, done) => {
     const name = basename(f)
     const url =
-      "https://github.com/microsoft/TypeScript-Website/blob/v2/packages/"
+      "https://github.com/microsoft/TypeScript-Website/blob/v2/packages"
     const check = done ? "x" : " "
     return `- [${check}] [\`${name}\`](${url}${f.replace(/ /g, "%20")})`
   }
@@ -69,8 +74,8 @@ const toMarkdown = files => {
     const todo = files[section].todo
     const done = files[section].done
 
-    md.push("\n\n## " + section + "\n\n")
-
+    md.push("\n\n## " + section + "\n")
+    md.push(`Done: ${done.length}, TODO: ${todo.length}.\n\n`)
     done.forEach(f => {
       md.push(markdownLink(f, true))
     })
@@ -78,8 +83,12 @@ const toMarkdown = files => {
     todo.forEach(f => {
       md.push(markdownLink(f))
     })
+
+    totalDone += done.length
+    totalTodo += todo.length
   })
 
+  md[0] = `For this language there are ${totalDone} translated files, with ${totalTodo} TODO.\n\n`
   return md.join("\n")
 }
 

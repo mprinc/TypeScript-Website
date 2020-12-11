@@ -1,6 +1,6 @@
 ---
 display: "Files"
-oneline: "Include a set list of files, does not support globs"
+oneline: "Include a list of files. This does not support glob patterns, as opposed to `include`."
 ---
 
 Specifies an <span class='definition'>allowlist of files to include in the program</span>. An error occurs if any of the files <span class='important'>can't be found</span>.

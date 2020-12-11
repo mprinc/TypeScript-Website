@@ -1,6 +1,6 @@
 ---
 display: "Experimental Decorators"
-oneline: "Enable experimental support for TC39 stage 2 decorators"
+oneline: "Enable experimental support for TC39 stage 2 draft decorators."
 ---
 
 <span class='comment' data-comment='Should mention new decorators proposal'>Enables [experimental support for decorators](https://github.com/tc39/proposal-decorators), which is in stage 2

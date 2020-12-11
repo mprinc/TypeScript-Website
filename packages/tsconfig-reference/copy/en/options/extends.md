@@ -1,6 +1,6 @@
 ---
 display: "Extends"
-oneline: "Inherit options for a TSConfig"
+oneline: "Specify one or more path or node module references to base configuration files from which settings are inherited."
 ---
 
 The value of `extends` is a string which contains a <span class='definition'>path to another configuration file</span> to inherit from.

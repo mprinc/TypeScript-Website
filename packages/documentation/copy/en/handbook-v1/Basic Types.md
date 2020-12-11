@@ -3,6 +3,7 @@ title: Basic Types
 layout: docs
 permalink: /docs/handbook/basic-types.html
 oneline: "Step one in learning TypeScript: The basic types."
+handbook: "true"
 ---
 
 For programs to be useful, we need to be able to work with some of the simplest units of data: numbers, strings, structures, boolean values, and the like.
@@ -39,7 +40,8 @@ Just like JavaScript, TypeScript also uses double quotes (`"`) or single quotes 
 
 ```ts twoslash
 let color: string = "blue";
-color = "red";
+// prettier-ignore
+color = 'red';
 ```
 
 You can also use _template strings_, which can span multiple lines and have embedded expressions.
@@ -326,7 +328,7 @@ function infiniteLoop(): never {
 
 ## Object
 
-`object` is a type that represents the non-primitive type, i.e. anything that is not `number`, `string`, `boolean`, `symbol`, `null`, or `undefined`.
+`object` is a type that represents the non-primitive type, i.e. anything that is not `number`, `string`, `boolean`, `bigint`, `symbol`, `null`, or `undefined`.
 
 With `object` type, APIs like `Object.create` can be better represented. For example:
 

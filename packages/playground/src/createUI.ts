@@ -1,10 +1,16 @@
 export interface UI {
   /** Show a text modal, with some buttons */
-  showModal: (message: string, subtitle?: string, buttons?: { [text: string]: string }) => void
+  showModal: (
+    message: string,
+    postFocalElement: HTMLElement,
+    subtitle?: string,
+    buttons?: { [text: string]: string },
+    event?: React.MouseEvent
+  ) => void
   /** A quick flash of some text */
   flashInfo: (message: string) => void
   /** Creates a modal container which you can put your own DOM elements inside */
-  createModalOverlay: (classes?: string) => HTMLDivElement
+  createModalOverlay: (postFocalElement: HTMLElement, classes?: string) => HTMLDivElement
 }
 
 export const createUI = (): UI => {
@@ -27,7 +33,7 @@ export const createUI = (): UI => {
     }, 1000)
   }
 
-  const createModalOverlay = (classList?: string) => {
+  const createModalOverlay = (postFocalElement: HTMLElement, classList?: string) => {
     document.querySelectorAll(".navbar-sub li.open").forEach(i => i.classList.remove("open"))
 
     const existingPopover = document.getElementById("popover-modal")
@@ -54,6 +60,7 @@ export const createUI = (): UI => {
       modal.parentNode!.removeChild(modal)
       // @ts-ignore
       document.onkeydown = oldOnkeyDown
+      postFocalElement.focus()
     }
 
     modalBG.onclick = close
@@ -68,13 +75,22 @@ export const createUI = (): UI => {
   }
 
   /** For showing a lot of code */
-  const showModal = (code: string, subtitle?: string, links?: { [text: string]: string }) => {
-    const modal = createModalOverlay()
+  const showModal = (
+    code: string,
+    postFocalElement: HTMLElement,
+    subtitle?: string,
+    links?: { [text: string]: string },
+    event?: React.MouseEvent
+  ) => {
+    const modal = createModalOverlay(postFocalElement)
+    const isNotMouse = event && event.screenX === 0 && event.screenY === 0
 
     if (subtitle) {
       const titleElement = document.createElement("h3")
       titleElement.textContent = subtitle
-      titleElement.setAttribute("role", "alert")
+      setTimeout(() => {
+        titleElement.setAttribute("role", "alert")
+      }, 100)
       modal.appendChild(titleElement)
     }
 
@@ -100,7 +116,7 @@ export const createUI = (): UI => {
     modal.appendChild(buttonContainer)
     const close = modal.querySelector(".close") as HTMLElement
     close.addEventListener("keydown", e => {
-      if (e.keyCode === 9) {
+      if (e.key === "Tab") {
         ;(modal.querySelector("textarea") as any).focus()
         e.preventDefault()
       }
@@ -119,12 +135,18 @@ export const createUI = (): UI => {
     const selectAll = () => {
       textarea.select()
     }
-    selectAll()
+
+    const shouldAutoSelect = !isNotMouse
+    if (shouldAutoSelect) {
+      selectAll()
+    } else {
+      textarea.focus()
+    }
 
     const buttons = modal.querySelectorAll("button")
     const lastButton = buttons.item(buttons.length - 1) as HTMLElement
     lastButton.addEventListener("keydown", e => {
-      if (e.keyCode === 9) {
+      if (e.key === "Tab") {
         ;(document.querySelector(".close") as any).focus()
         e.preventDefault()
       }

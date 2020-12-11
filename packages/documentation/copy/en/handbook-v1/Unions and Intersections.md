@@ -3,6 +3,7 @@ title: Unions and Intersection Types
 layout: docs
 permalink: /docs/handbook/unions-and-intersections.html
 oneline: How to use unions and intersection types in TypeScript
+handbook: "true"
 ---
 
 So far, the handbook has covered types which are atomic objects.
@@ -28,7 +29,7 @@ function padLeft(value: string, padding: any) {
   if (typeof padding === "string") {
     return padding + value;
   }
-  throw new Error(`Expected string or number, got '${padding}'.`);
+  throw new Error(`Expected string or number, got '${typeof padding}'.`);
 }
 
 padLeft("Hello world", 4); // returns "    Hello world"
@@ -230,7 +231,7 @@ type NetworkState =
   | NetworkFailedState
   | NetworkSuccessState;
 
-function networkStatus(state: NetworkState): string {
+function logger(state: NetworkState): string {
   // Right now TypeScript does not know which of the three
   // potential types state could be.
 
@@ -273,9 +274,9 @@ type NetworkSuccessState = {
 // ---cut---
 type NetworkFromCachedState = {
   state: "from_cache";
-  id: string
-  response: NetworkSuccessState["response"]
-}
+  id: string;
+  response: NetworkSuccessState["response"];
+};
 
 type NetworkState =
   | NetworkLoadingState
@@ -290,7 +291,7 @@ function logger(s: NetworkState) {
     case "failed":
       return `failed with code ${s.code}`;
     case "success":
-      return "got response"
+      return "got response";
   }
 }
 ```
@@ -303,7 +304,7 @@ The first is to turn on `--strictNullChecks` and specify a return type:
 type NetworkLoadingState = { state: "loading" };
 type NetworkFailedState = { state: "failed"; code: number };
 type NetworkSuccessState = { state: "success" };
-type NetworkFromCachedState = { state: "from_cache"; }
+type NetworkFromCachedState = { state: "from_cache" };
 
 type NetworkState =
   | NetworkLoadingState
@@ -319,7 +320,7 @@ function logger(s: NetworkState): string {
     case "failed":
       return `failed with code ${s.code}`;
     case "success":
-      return "got response"
+      return "got response";
   }
 }
 ```
@@ -335,7 +336,7 @@ The second method uses the `never` type that the compiler uses to check for exha
 type NetworkLoadingState = { state: "loading" };
 type NetworkFailedState = { state: "failed"; code: number };
 type NetworkSuccessState = { state: "success" };
-type NetworkFromCachedState = { state: "from_cache"; }
+type NetworkFromCachedState = { state: "from_cache" };
 
 type NetworkState =
   | NetworkLoadingState
@@ -355,8 +356,8 @@ function logger(s: NetworkState): string {
       return `failed with code ${s.code}`;
     case "success":
       return "got response";
-    default: 
-      return assertNever(s)
+    default:
+      return assertNever(s);
   }
 }
 ```
@@ -373,7 +374,7 @@ This allows you to add together existing types to get a single type that has all
 For example, `Person & Serializable & Loggable` is a type which is all of `Person` _and_ `Serializable` _and_ `Loggable`.
 That means an object of this type will have all members of all three types.
 
-For example, if you had networking requests with consistent error handling then you could separate out the error handling into it's own type which is merged with types which correspond to a single response type.
+For example, if you had networking requests with consistent error handling then you could separate out the error handling into its own type which is merged with types which correspond to a single response type.
 
 ```ts twoslash
 interface ErrorHandling {

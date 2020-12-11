@@ -1,6 +1,6 @@
 ---
 display: "Incremental"
-oneline: "Save .tsbuildinfo files to allow for incremental compilation of projects"
+oneline: "Save .tsbuildinfo files to allow for incremental compilation of projects."
 ---
 
 Tells TypeScript to <span class='definition'>save information about the project graph</span> from the last compilation to files stored on disk. This

@@ -1,6 +1,6 @@
 ---
 display: "Declaration Map"
-oneline: "Create sourcemaps for d.ts files"
+oneline: "Create sourcemaps for d.ts files."
 ---
 
 <span class='definition'>Generates a source map for `.d.ts` files</span> which map back to the original `.ts` source file.
